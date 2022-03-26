@@ -3,6 +3,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import Aplicación.Cronometro;
 import Aplicación.Participante;
 import Controller.Controller;
 
@@ -70,7 +72,8 @@ public class Consola {
 				
 				}
 			else if(opcion == 3){
-	
+				Cronometro timer = new Cronometro();
+				timer.startTime();
 				}
 			}
 			
