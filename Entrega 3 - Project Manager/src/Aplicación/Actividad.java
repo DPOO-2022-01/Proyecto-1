@@ -7,25 +7,26 @@ public class Actividad {
 	
 		private String titulo;
 		private String descripcion;
-		private String tipo;
+		private TipoActividad tipo;
 		private String fecharealizacion;
-		private int horainicio;
-		private int horafin;
-		private ArrayList<Participante>participantes;
-		
-
+		private String horainicio;
+		private String horafin;
+		private Participante participante;
 
 //Constructor
-	public Actividad(String titulo, String descripcion, String tipo, String fecharealizacion,int horainicio,int horafin) {
+	public Actividad(String titulo, String descripcion, TipoActividad tipo, String fecharealizacion,String horainicio,String horafin, Participante participante) {
 		super();
 		this.titulo = titulo;
 		this.descripcion = descripcion;
+		this.tipo = tipo;
 		this.fecharealizacion = fecharealizacion;
 		this.horainicio = horainicio;
 		this.horafin=horafin;
-		this.participantes = new ArrayList<>();
+		this.participante = participante;
 	  }
-	//Métodos
+	
+	
+	//Getters and Setters
 
 
 
@@ -53,13 +54,13 @@ public class Actividad {
 
 
 
-	public String getTipo() {
+	public TipoActividad getTipo() {
 		return tipo;
 	}
 
 
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoActividad tipo) {
 		this.tipo = tipo;
 	}
 
@@ -77,39 +78,43 @@ public class Actividad {
 
 
 
-	public int getHorainicio() {
+	public Participante getParticipante() {
+		return participante;
+	}
+
+
+
+	public void setParticipante(Participante participante) {
+		this.participante = participante;
+	}
+
+
+
+	public String getHorainicio() {
 		return horainicio;
 	}
 
 
 
-	public void setHorainicio(int horainicio) {
+	public void setHorainicio(String horainicio) {
 		this.horainicio = horainicio;
 	}
 
 
 
-	public int getHorafin() {
+	public String getHorafin() {
 		return horafin;
 	}
 
 
 
-	public void setHorafin(int horafin) {
+	public void setHorafin(String horafin) {
 		this.horafin = horafin;
 	}
-
-
-
-	public ArrayList<Participante> getParticipantes() {
-		return participantes;
-	}
-
-
-
-	public void setParticipantes(ArrayList<Participante> participantes) {
-		this.participantes = participantes;
-	}
 	
-	}
+	
+}
+
+
+
 	

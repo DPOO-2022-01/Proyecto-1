@@ -2,8 +2,10 @@ package Controller;
 
 import java.util.ArrayList;
 
+import Aplicación.Actividad;
 import Aplicación.Participante;
 import Aplicación.Proyecto;
+import Aplicación.TipoActividad;
 
 public class Controller {
 	private ArrayList<Proyecto>proyectos;
@@ -14,22 +16,28 @@ public class Controller {
 		this.participantes =new ArrayList<>();
 	}
 	
-	public void crearParticipante(String nombre,String correo ) {
+	public Participante crearParticipante(String nombre,String correo ) {
 		Participante participante = new Participante(nombre,correo);
 		participantes.add(participante);
+		return participante;
 		
 	}
 	
-	public void crearProyecto(String nombreP, String descripcion, String fechaInicio, String fechaFinalizacion,int idParticipante) {
-		Participante propietario =obtenerParticipante(idParticipante);
-		Proyecto proyecto = new Proyecto(nombreP, descripcion, fechaInicio, fechaFinalizacion,propietario);
+	public Proyecto crearProyecto(String nombreP, String descripcion, String fechaInicio, String fechaFinalizacion,Participante propietario) 
+	{
+		Proyecto proyecto = new Proyecto(nombreP, descripcion, fechaInicio, fechaFinalizacion, propietario);
+		proyecto.agregarParticipante(propietario);
 		proyectos.add(proyecto);
+		
+		return proyecto;
 	}
 	
-	public void crearProyecto(String nombreP, String descripcion, String fechaInicio,int idParticipante) {
-		Participante propietario =obtenerParticipante(idParticipante);
-		Proyecto proyecto = new Proyecto(nombreP, descripcion, fechaInicio,propietario);
-		proyectos.add(proyecto);
+	public Actividad crearActividad(String titulo, String descripcion, TipoActividad tipo, String fecharealizacion,String horainicio,String horafin, Participante participante, Proyecto proyecto)
+	{
+		Actividad actividad = new Actividad(titulo, descripcion, tipo, fecharealizacion, horainicio, horafin, participante);
+		proyecto.agregarActividad(actividad);
+		return actividad;
+		
 	}
 	
 	public void agregarParticipanteProyecto(int idProyecto, int idParticipante) {
@@ -37,7 +45,6 @@ public class Controller {
 		Proyecto proyecto = obtenerProyecto(idProyecto);
 		proyecto.agregarParticipante(participante);
 	}
-	
 
 	private Participante obtenerParticipante( int idParticipante) {
 		return participantes.get(idParticipante-1);

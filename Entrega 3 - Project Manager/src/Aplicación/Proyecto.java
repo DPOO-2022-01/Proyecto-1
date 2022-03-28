@@ -12,6 +12,8 @@ public class Proyecto {
 	private String fechaFinalizacion;
 	private Participante propietario;
 	private ArrayList<Participante>participantes;
+	private ArrayList<TipoActividad>tipoActividades;
+	private ArrayList<Actividad>actividades;
 	
 	//Constructor
 	public Proyecto(String nombre, String descripcion, String fechaInicio, String fechaFinalizacion,Participante propietario) {
@@ -22,26 +24,52 @@ public class Proyecto {
 		this.fechaFinalizacion = fechaFinalizacion;
 		this.propietario = propietario;
 		this.participantes = new ArrayList<>();
+		this.actividades = new ArrayList<>();
 	}
 	
-	//Constructor
-	public Proyecto(String nombre, String descripcion, String fechaInicio,Participante propietario) {
-		super();
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.fechaInicio = fechaInicio;
+	public Participante getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(Participante propietario) {
 		this.propietario = propietario;
-		this.participantes = new ArrayList<>();
-			
 	}
-	
+
+	public ArrayList<Participante> getParticipantes() {
+		return participantes;
+	}
+
+	public void setParticipantes(ArrayList<Participante> participantes) {
+		this.participantes = participantes;
+	}
+
+	public ArrayList<TipoActividad> getTipoActividades() {
+		return tipoActividades;
+	}
+
+	public void setTipoActividades(ArrayList<TipoActividad> tipoActividades) {
+		this.tipoActividades = tipoActividades;
+	}
+
 	//Métodos
 	public void agregarParticipante(Participante participante) {
 		this.participantes.add(participante);
 		
 	}
 	
+	public void agregarActividad(Actividad actividad) {
+		this.actividades.add(actividad);
+		
+	}
 
+
+	public ArrayList<Actividad> getActividades() {
+		return actividades;
+	}
+
+	public void setActividades(ArrayList<Actividad> actividades) {
+		this.actividades = actividades;
+	}
 
 	public String getNombre() {
 		return nombre;
