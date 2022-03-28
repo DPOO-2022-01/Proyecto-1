@@ -151,10 +151,6 @@ public class Consola {
 		}
 		
 	}
-	private int parseToInt(String numTipo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	private void mostrarParticipantes() {
 		for(int i=0;i<controller.getParticipantes().size();i++) {
