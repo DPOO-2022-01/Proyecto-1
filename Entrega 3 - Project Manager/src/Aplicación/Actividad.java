@@ -11,7 +11,8 @@ public class Actividad {
 		private String fecharealizacion;
 		private String horainicio;
 		private String horafin;
-		private Participante participante;
+		private ArrayList<Participante>participantes;
+	
 
 //Constructor
 	public Actividad(String titulo, String descripcion, TipoActividad tipo, String fecharealizacion,String horainicio,String horafin, Participante participante) {
@@ -22,8 +23,11 @@ public class Actividad {
 		this.fecharealizacion = fecharealizacion;
 		this.horainicio = horainicio;
 		this.horafin=horafin;
-		this.participante = participante;
+		this.participantes = new ArrayList<>();
 	  }
+	public void agregarParticipante(Participante participante) {
+		this.participantes.add(participante);
+	}
 	
 	
 	//Getters and Setters
@@ -78,15 +82,16 @@ public class Actividad {
 
 
 
-	public Participante getParticipante() {
-		return participante;
+	public ArrayList<Participante> getParticipantes() {
+		return participantes;
 	}
 
 
 
-	public void setParticipante(Participante participante) {
-		this.participante = participante;
+	public void setParticipantes(ArrayList<Participante> participantes) {
+		this.participantes = participantes;
 	}
+	
 
 
 

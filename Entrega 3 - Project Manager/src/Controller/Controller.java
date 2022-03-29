@@ -45,9 +45,17 @@ public class Controller {
 		Proyecto proyecto = obtenerProyecto(idProyecto);
 		proyecto.agregarParticipante(participante);
 	}
+	public void agregarParticipanteActividad(int idProyecto,int idActividad ,int idParticipante) {
+		Proyecto proyecto = obtenerProyecto(idProyecto);
+		Participante participante = obtenerParticipanteProyecto(idParticipante,proyecto);
+		proyecto.getActividades().get(idActividad).agregarParticipante(participante);
+	}
 
 	private Participante obtenerParticipante( int idParticipante) {
 		return participantes.get(idParticipante-1);
+	}
+	private Participante obtenerParticipanteProyecto( int idParticipante,Proyecto proyecto) {
+		return proyecto.getParticipantes().get(idParticipante-1);
 	}
 	private Proyecto obtenerProyecto( int idProyecto) {
 		return proyectos.get(idProyecto-1);

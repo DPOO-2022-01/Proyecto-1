@@ -63,7 +63,7 @@ public class Proyecto {
 	}
 
 
-	public ArrayList<Actividad> getActividades() {
+	public  ArrayList<Actividad> getActividades() {
 		return actividades;
 	}
 
