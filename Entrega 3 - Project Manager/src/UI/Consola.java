@@ -97,7 +97,7 @@ public class Consola {
 				
 			else if(opcion == 3){
 				if (controller.getProyectos().size() == 0) {
-					System.out.println("Primero debes crear un proyecto para añadir participantes \n");
+					System.out.println("Primero debes crear un proyecto para registrar una actividad \n");
 				}
 				else {
 					System.out.println("Ingresa por favor el nombre del proyecto: \n");
