@@ -112,6 +112,8 @@ public class Consola {
 							String fechaA = this.br.readLine();
 							System.out.println("Ingresa por favor la hora de inicio: \n");
 							String horaInicio = this.br.readLine();
+							controller.startCronometro();
+							
 							System.out.println("Ingresa por favor la hora de finalización: \n");
 							String horaFinal = this.br.readLine();
 							System.out.println("Ingresa por favor el # del tipo de actividad que desea realizar: \n");

@@ -1,15 +1,18 @@
 package Controller;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 import Aplicación.Actividad;
 import Aplicación.Participante;
 import Aplicación.Proyecto;
 import Aplicación.TipoActividad;
+import Aplicación.Cronometro;
 
 public class Controller {
 	private ArrayList<Proyecto>proyectos;
 	private ArrayList<Participante>participantes;
+	private Cronometro timer = new Cronometro();
 	
 	public Controller() {
 		this.proyectos =new ArrayList<>();
@@ -67,6 +70,13 @@ public class Controller {
 
 	public void setParticipantes(ArrayList<Participante> participantes) {
 		this.participantes = participantes;
+	}
+	public void startCronometro() {
+		timer.startTime();
+	}
+	public String getTiempo() {
+		String tiempo = timer.getTiempo();
+		return tiempo;
 	}
 	
 	
