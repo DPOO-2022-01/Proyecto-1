@@ -8,7 +8,7 @@ public class TipoActividad
 
 	private String nombreTipoActividad;
 	private Proyecto proyecto;
-	private HashMap<String, ArrayList<Integer>> tiempoParticipantes;
+	private HashMap<String, ArrayList<Integer>> tiempoParticipantes = new HashMap<>();
 	
 	
 	

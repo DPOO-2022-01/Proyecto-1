@@ -77,6 +77,5 @@ public class Controller {
 	public int getTiempo() {
 		return timer.tiempoEnMins();
 	}
-	
-	
+
 }
