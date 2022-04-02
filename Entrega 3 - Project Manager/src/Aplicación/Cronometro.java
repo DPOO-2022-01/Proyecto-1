@@ -79,4 +79,12 @@ public class Cronometro {
 			// TODO: handle exception
 		}
 	}
+	public int tiempoEnMins() {
+		String[] separado = this.tiempo.split(":");
+		int horas_a_mins = Integer.parseInt(separado[0])/60;
+		int mins = Integer.parseInt(separado[1]);
+		int segs_a_mins = Integer.parseInt(separado[2])*60;
+		int todoMinutos = horas_a_mins + mins + segs_a_mins;
+		return todoMinutos;
+	}
 }

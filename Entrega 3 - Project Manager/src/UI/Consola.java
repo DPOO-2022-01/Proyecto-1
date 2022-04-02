@@ -3,7 +3,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Aplicación.Actividad;
 import Aplicación.Participante;
@@ -104,6 +106,7 @@ public class Consola {
 					String nombreProyecto = this.br.readLine();
 					for (Proyecto proyecto: controller.getProyectos()) {
 						if (proyecto.getNombre().equals(nombreProyecto)) {
+							//proyecto es el Proyecto al que se le está registrando una actividad
 							System.out.println("Por favor ingresa el título de la actividad que deseas registrar: \n");
 							String titulo = this.br.readLine();
 							System.out.println("Ingresa por favor una descripción corta de la actividad: \n");
@@ -112,6 +115,7 @@ public class Consola {
 							String fechaA = this.br.readLine();
 							System.out.println("Ingresa por favor la hora de inicio: \n");
 							String horaInicio = this.br.readLine();
+							//Tiempo de actividad
 							controller.startCronometro();
 							
 							System.out.println("Ingresa por favor la hora de finalización: \n");
@@ -123,6 +127,7 @@ public class Consola {
 								i++;
 							}
 							String numTipo = this.br.readLine();
+							//Tipo es el tipo de actividad en el que se trabajo
 							TipoActividad tipo = proyecto.getTipoActividades().get(Integer.parseInt(numTipo)-1);
 							System.out.println("Selecciona el participante que realizaó la actividad: \n");
 							int j = 1;
@@ -131,7 +136,28 @@ public class Consola {
 								j++;
 								}
 							String numParticipante = this.br.readLine();
+							//participant es el participante que realizó la actividad
 							Participante participant = proyecto.getParticipantes().get(Integer.parseInt(numParticipante)-1);
+							//TODO Implementar la adición del participante al hashMap de tiempoParticipante
+							String nombreParticipante = participant.getNombre();
+							if (tipo.getTiempoParticipantes().containsKey(nombreParticipante) == false) {
+								ArrayList<Integer> array = new ArrayList<>();
+								tipo.getTiempoParticipantes().put(nombreParticipante, array);
+								int duracionMinutos = controller.getTiempo();
+								//Posición 0 del array = Tiempo de actividad 
+								tipo.getTiempoParticipantes().get(nombreParticipante).add(duracionMinutos);
+								//Posición 1 del array = número de participaciones
+								tipo.getTiempoParticipantes().get(nombreParticipante).add(1);
+							}
+							if (tipo.getTiempoParticipantes().containsKey(nombreParticipante) == true) {
+								int duracionMinutos = controller.getTiempo();
+								int tiempoAnterior = tipo.getTiempoParticipantes().get(nombreParticipante).get(0);
+								int participacionAnterior = tipo.getTiempoParticipantes().get(nombreParticipante).get(1);
+								//Se sumó el tiempo pasado con el actual y se añadió al array del participante
+								tipo.getTiempoParticipantes().get(nombreParticipante).set(0, duracionMinutos+tiempoAnterior);
+								//Se sumó la participación anterior + 1 y se añadió al array del participante
+								tipo.getTiempoParticipantes().get(nombreParticipante).set(0, participacionAnterior+1);
+							}
 							System.out.println(participant.getNombre() + tipo.getNombreTipoActividad());
 							controller.crearActividad(titulo, descripcionA, tipo, fechaA, horaInicio, horaFinal, participant, proyecto);
 							for (Actividad actividad: proyecto.getActividades()) {

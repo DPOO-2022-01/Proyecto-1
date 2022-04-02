@@ -74,9 +74,8 @@ public class Controller {
 	public void startCronometro() {
 		timer.startTime();
 	}
-	public String getTiempo() {
-		String tiempo = timer.getTiempo();
-		return tiempo;
+	public int getTiempo() {
+		return timer.tiempoEnMins();
 	}
 	
 	

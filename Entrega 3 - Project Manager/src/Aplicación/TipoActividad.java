@@ -1,12 +1,14 @@
 package Aplicación;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TipoActividad 
 {
 
 	private String nombreTipoActividad;
 	private Proyecto proyecto;
+	private HashMap<String, ArrayList<Integer>> tiempoParticipantes;
 	
 	
 	
@@ -24,5 +26,12 @@ public class TipoActividad
 	public void setNombreTipoActividad(String nombreTipoActividad) {
 		this.nombreTipoActividad = nombreTipoActividad;
 	}
+	public HashMap<String, ArrayList<Integer>> getTiempoParticipantes() {
+		return tiempoParticipantes;
+	}
+	public void setTiempoParticipantes(HashMap<String, ArrayList<Integer>> tiempoParticipantes) {
+		this.tiempoParticipantes = tiempoParticipantes;
+	}
+	
 	
 }
