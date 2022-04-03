@@ -121,4 +121,7 @@ public class Cronometro {
 		setSegundos(0);
 		return todoMinutos;
 	}
+	public static void main(String[] args) {
+		
+	}
 }

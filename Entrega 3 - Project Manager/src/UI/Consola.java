@@ -198,8 +198,9 @@ public class Consola {
 											String nombreTipo = tipoAct.getNombreTipoActividad();
 											int tiempoTotal = tiemposArray.get(0);
 											int tiempoPromedio = tiempoTotal/tiemposArray.get(1);
-											System.out.println(nombreParticipante + " en "+nombreTipo+":\n"+"Tiempo total: "+tiempoTotal+"\n"
-													+"Tiempo promedio: "+tiempoPromedio);
+											//Los tiempos son en mins así que si no pasó más de un min en la actividad, mostrará 0
+											System.out.println(nombreParticipante + " en "+nombreTipo+":\n"+"Tiempo total en mins: "+tiempoTotal+"\n"
+													+"Tiempo promedio en mins: "+tiempoPromedio);
 										}
 									}
 								}
