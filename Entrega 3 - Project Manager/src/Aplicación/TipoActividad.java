@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 public class TipoActividad 
 {
+	
+	//Atributos
 
 	private String nombreTipoActividad;
 	private Proyecto proyecto;

@@ -27,6 +27,25 @@ public class Proyecto {
 		this.actividades = new ArrayList<>();
 	}
 	
+
+
+	//Métodos
+	
+	//Este método agrega a la lista de participantes, un participante
+	public void agregarParticipante(Participante participante) {
+		this.participantes.add(participante);
+		
+	}
+	
+	//Este método agrega a la lista de actividades, una actividad
+	public void agregarActividad(Actividad actividad) {
+		this.actividades.add(actividad);
+		
+	}
+
+
+	//Getters and Setters
+	
 	public Participante getPropietario() {
 		return propietario;
 	}
@@ -50,18 +69,6 @@ public class Proyecto {
 	public void setTipoActividades(ArrayList<TipoActividad> tipoActividades) {
 		this.tipoActividades = tipoActividades;
 	}
-
-	//Métodos
-	public void agregarParticipante(Participante participante) {
-		this.participantes.add(participante);
-		
-	}
-	
-	public void agregarActividad(Actividad actividad) {
-		this.actividades.add(actividad);
-		
-	}
-
 
 	public ArrayList<Actividad> getActividades() {
 		return actividades;

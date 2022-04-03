@@ -28,18 +28,22 @@ public class Consola {
 		mediador =new Aplicacion();
 		mostrarMenu();
 	}
+	
+	//Menú principal
 	private void mostrarMenu() {
 		try {			
 			int opcion;
 			do {
-				System.out.println("Bienvenido a Proyect Manager!\n"
+				System.out.println("\nBienvenido a Proyect Manager!\n"
 						+ "¿Qué quieres hacer hoy?...\n"
 						+ "1. Crear un proyecto\n"
-						+ "2. Aï¿½adir participante\n"
+						+ "2. Añadir participante\n"
 						+ "3. Registrar una actividad\n"
 						+ "4. Mostrar reporte de participantes\n"
 						+ "0. Salir");
 				opcion = Integer.parseInt(this.br.readLine()); 
+				
+				//En la opción 1 se crea un proyecto, para esto necesitamos los datos del propietario y otras características propias del proyecto.
 				if(opcion == 1) {
 					System.out.println("Hola dueño del proyecto! Primero necesitamos tus datos:\n"
 							+ "Ingresa por favor tu nombre completo: \n");
@@ -58,8 +62,11 @@ public class Consola {
 					String fechaInicial = this.br.readLine();
 					System.out.println("Ingresa por favor la fecha estimada de finalización: \n");
 					String fechaFinalizacion = this.br.readLine();
-
+					
+					//Ya obtenidos los datos, se procede a crear el proyecto.
 					Proyecto proyecto = mediador.crearProyecto(nombreP, descripcion, fechaInicial, fechaFinalizacion, propietario);
+					
+					//Se asignan los tipos de actividad que va a tener el proyecto.
 					ArrayList<TipoActividad>tipoActividades = new ArrayList<>();
 					System.out.println("Por favor ingrese los tipos de actividades que tendrá el proyecto separados por coma: \n");
 					String[] tiposActividades = this.br.readLine().split(",");
@@ -72,9 +79,11 @@ public class Consola {
 					proyecto.setTipoActividades(tipoActividades);
 					System.out.println("Tu proyecto ha sido creado con éxito! \n");	
 				}
-
+				
+				//La opción 2 permite añadir participantes, para esto primero se válida que exista un proyecto ya creado.
+				//Luego, se procede a pedir el nombre del proyecto para asociarlo y poder agregar al participante a ese proyecto.
 				else if(opcion == 2) {
-
+					
 					if (mediador.getProyectos().size() == 0) {
 						System.out.println("Primero debes crear un proyecto para añadir participantes \n");
 					}
@@ -88,6 +97,8 @@ public class Consola {
 								String nombre = this.br.readLine();
 								System.out.println("Ingresa por favor tu dirección e-mail: \n");
 								String email = this.br.readLine();
+								
+								//Luego de obtenidos los datos se crea el participante y se agrega el participante al proyecto.
 								Participante participante = mediador.crearParticipante(nombre, email);
 								proyecto.agregarParticipante(participante);
 								System.out.println("Se agregó el participante con éxito! \n" + "El número de participantes en el proyecto es de: "
@@ -99,7 +110,9 @@ public class Consola {
 						}
 					}
 				}
-
+				
+				//La opción 3 permite registrar una actividad en el proyecto, para esto primero se válida que exista un proyecto ya creado.
+				//Luego, se procede a pedir el nombre del proyecto para asociarlo y poder agregar la actividad a ese proyecto.
 				else if(opcion == 3){
 					if (mediador.getProyectos().size() == 0) {
 						System.out.println("Primero debes crear un proyecto para registrar una actividad \n");
@@ -110,11 +123,11 @@ public class Consola {
 						for (Proyecto proyecto: mediador.getProyectos()) {
 							if (proyecto.getNombre().equals(nombreProyecto)) {
 								//proyecto es el Proyecto al que se le estará registrando una actividad
-								System.out.println("Por favor ingresa el tï¿½tulo de la actividad que deseas registrar: \n");
+								System.out.println("Por favor ingresa el título de la actividad que deseas registrar: \n");
 								String titulo = this.br.readLine();
-								System.out.println("Ingresa por favor una descripciï¿½n corta de la actividad: \n");
+								System.out.println("Ingresa por favor una descripción corta de la actividad: \n");
 								String descripcionA = this.br.readLine();
-								System.out.println("Ingresa por favor la fecha en la que se realizï¿½ la actividad: \n");
+								System.out.println("Ingresa por favor la fecha en la que se realizó la actividad: \n");
 								String fechaA = this.br.readLine();
 								System.out.println("Ingresa por favor la hora de inicio: \n");
 								String horaInicio = this.br.readLine();
@@ -130,7 +143,7 @@ public class Consola {
 									i++;
 								}
 								String numTipo = this.br.readLine();
-								//Tipo es el tipo de actividad en el que se trabajo
+								//Tipo es el tipo de actividad en el que se trabajó
 								TipoActividad tipo = proyecto.getTipoActividades().get(Integer.parseInt(numTipo)-1);
 								System.out.println("Selecciona el participante que realizó la actividad: \n");
 								int j = 1;
@@ -141,7 +154,6 @@ public class Consola {
 								String numParticipante = this.br.readLine();
 								//participant es el participante que realizó la actividad
 								Participante participant = proyecto.getParticipantes().get(Integer.parseInt(numParticipante)-1);
-								//TODO Implementar la adición del participante al hashMap de tiempoParticipante
 								String nombreParticipante = participant.getNombre();
 
 								if (tipo.getTiempoParticipantes().containsKey(nombreParticipante) == true) {
@@ -163,8 +175,13 @@ public class Consola {
 									//Posición 1 del array = número de participaciones
 									tipo.getTiempoParticipantes().get(nombreParticipante).add(1);
 								}
-								System.out.println(participant.getNombre() + tipo.getNombreTipoActividad());
+								System.out.println("El participante que realizó la actividad es: " + participant.getNombre() + " \n"
+								+ "El tipo de actividad que realizó fue: "+ tipo.getNombreTipoActividad());
+								
+								//Luego de obtenido los datos, se procede a crear la actividad en el proyecto.
 								mediador.crearActividad(titulo, descripcionA, tipo, fechaA, horaInicio, horaFinal, participant, proyecto);
+								
+								System.out.println("Las actividades que hay en el proyecto son: ");
 								for (Actividad actividad: proyecto.getActividades()) {
 									System.out.println(actividad.getTitulo());
 								}
@@ -176,6 +193,9 @@ public class Consola {
 						}
 					}
 				}
+				
+				//La opción 4 permite mostrar un reporte por participante, para esto primero se válida que exista un proyecto ya creado.
+				//Luego, se procede a pedir el nombre del proyecto para asociarlo y poder mostrar el reporte de dicho proyecto.
 				else if (opcion == 4) {
 					if (mediador.getProyectos().size() == 0) {
 						System.out.println("Primero debes crear un proyecto para ver el reporte de los participantes \n");	
@@ -198,7 +218,7 @@ public class Consola {
 											String nombreTipo = tipoAct.getNombreTipoActividad();
 											int tiempoTotal = tiemposArray.get(0);
 											int tiempoPromedio = tiempoTotal/tiemposArray.get(1);
-											//Los tiempos son en mins así que si no pasó más de un min en la actividad, mostrará 0
+											//NOTA: Los tiempos son en mins así que si no pasó más de un min en la actividad, mostrará 0.
 											System.out.println(nombreParticipante + " en "+nombreTipo+":\n"+"Tiempo total en mins: "+tiempoTotal+"\n"
 													+"Tiempo promedio en mins: "+tiempoPromedio);
 										}
@@ -219,9 +239,4 @@ public class Consola {
 
 			}
 
-			private void mostrarParticipantes() {
-				for(int i=0;i<mediador.getParticipantes().size();i++) {
-					System.out.println((i+1)+") "+mediador.getParticipantes().get(i));
-				}
-			}
 		}
