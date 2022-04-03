@@ -3,23 +3,29 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
-import Aplicación.Cronometro;
-import Aplicación.Participante;
-import Controller.Controller;
+import Aplicaciï¿½n.Actividad;
+import Aplicaciï¿½n.Participante;
+import Aplicaciï¿½n.Proyecto;
+import Aplicaciï¿½n.TipoActividad;
+import Mediador.Aplicacion;
 
 public class Consola {
-	
+
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	private Controller controller;
-	
+	private Aplicacion mediador;
+
 	public static void main(String[] args) {
 		Consola consola = new Consola();
-		
+
 	}
 
 	public Consola () {
-		controller=new Controller();
+		mediador =new Aplicacion();
 		mostrarMenu();
 	}
 	private void mostrarMenu() {
@@ -27,65 +33,194 @@ public class Consola {
 			int opcion;
 			do {
 				System.out.println("Bienvenido a Proyect Manager!\n"
-						+ "¿Qué quieres hacer hoy?...\n"
+						+ "ï¿½Quï¿½ quieres hacer hoy?...\n"
 						+ "1. Crear un proyecto\n"
-						+ "2. Crear participante\n"
-						+ "3. \n"
+						+ "2. Aï¿½adir participante\n"
+						+ "3. Registrar una actividad\n"
+						+ "4. Mostrar reporte de participantes\n"
 						+ "0. Salir");
-			opcion = Integer.parseInt(this.br.readLine()); 
-			if(opcion == 1) {
-				/*System.out.println("Hola dueño del proyecto! Primero necesitamos tus datos:\n"
-						+ "Ingresa por favor tu nombre completo: \n");
-				String nombre = this.br.readLine();
-				System.out.println("Ingresa por favor tu dirección e-mail: \n");
-				String email = this.br.readLine();
-				boolean dueño = true;
-				Participante participante = new Participante(nombre, email, dueño);*/	
-				
-				System.out.println("Gracias! \n"
-						+ "------Tu nuevo proyecto necesitará información------\n"
-						+ "Ingresa por favor el nombre de tu proyecto: \n");
-				String nombreP = this.br.readLine();
-				System.out.println("Ingresa por favor una descripción corta del proyecto: \n");
-				String descripcion = this.br.readLine();
-				System.out.println("Ingresa por favor la fecha inicial: \n");
-				String fechaInicial = this.br.readLine();
-				System.out.println("Ingresa por favor la fecha estimada de finalización: \n");
-				String fechaFinalizacion = this.br.readLine();
-				System.out.println("Lista de participantes");
-				mostrarParticipantes();
-				System.out.println("Seleccion el dueño del Proyecto: \n");
-				int idParticipante = this.br.read();
-				controller.crearProyecto(nombreP, descripcion, fechaInicial, fechaFinalizacion, idParticipante);
-				//participante.crearProyecto(nombreP, descripcion, fechaInicial, fechaFinalizacion);
-				
-				System.out.println("Tu proyecto ha sido creado con éxito! \n");
-						
+				opcion = Integer.parseInt(this.br.readLine()); 
+				if(opcion == 1) {
+					System.out.println("Hola dueï¿½o del proyecto! Primero necesitamos tus datos:\n"
+							+ "Ingresa por favor tu nombre completo: \n");
+					String nombre = this.br.readLine();
+					System.out.println("Ingresa por favor tu direcciï¿½n e-mail: \n");
+					String email = this.br.readLine();
+					Participante propietario = new Participante(nombre, email);
+
+					System.out.println("Gracias! \n"
+							+ "------Tu nuevo proyecto necesitarï¿½ informaciï¿½n------\n"
+							+ "Ingresa por favor el nombre de tu proyecto: \n");
+					String nombreP = this.br.readLine();
+					System.out.println("Ingresa por favor una descripciï¿½n corta del proyecto: \n");
+					String descripcion = this.br.readLine();
+					System.out.println("Ingresa por favor la fecha inicial: \n");
+					String fechaInicial = this.br.readLine();
+					System.out.println("Ingresa por favor la fecha estimada de finalizaciï¿½n: \n");
+					String fechaFinalizacion = this.br.readLine();
+
+					Proyecto proyecto = mediador.crearProyecto(nombreP, descripcion, fechaInicial, fechaFinalizacion, propietario);
+					ArrayList<TipoActividad>tipoActividades = new ArrayList<>();
+					System.out.println("Por favor ingrese los tipos de actividades que tendrï¿½ el proyecto separados por coma: \n");
+					String[] tiposActividades = this.br.readLine().split(",");
+					for (String tipo: tiposActividades) {
+						TipoActividad tipoActividad = new TipoActividad();
+						tipoActividad.setNombreTipoActividad(tipo);
+						tipoActividad.setProyecto(proyecto);
+						tipoActividades.add(tipoActividad);
+					}
+					proyecto.setTipoActividades(tipoActividades);
+					System.out.println("Tu proyecto ha sido creado con ï¿½xito! \n");	
 				}
-			else if(opcion == 2) {
-				System.out.println("Por favor ingresa los datos del nuevo participante:\n"
-						+ "Ingresa por favor tu nombre completo: \n");
-				String nombre = this.br.readLine();
-				System.out.println("Ingresa por favor tu dirección e-mail: \n");
-				String email = this.br.readLine();
-				controller.crearParticipante(nombre, email);
-				
+
+				else if(opcion == 2) {
+
+					if (mediador.getProyectos().size() == 0) {
+						System.out.println("Primero debes crear un proyecto para aï¿½adir participantes \n");
+					}
+					else {
+						System.out.println("Ingresa por favor el nombre del proyecto: \n");
+						String nombreProyecto = this.br.readLine();
+						for (Proyecto proyecto: mediador.getProyectos()) {
+							if (proyecto.getNombre().equals(nombreProyecto)) {
+								System.out.println("Por favor ingresa los datos del nuevo participante:\n"
+										+ "Ingresa por favor tu nombre completo: \n");
+								String nombre = this.br.readLine();
+								System.out.println("Ingresa por favor tu direcciï¿½n e-mail: \n");
+								String email = this.br.readLine();
+								Participante participante = mediador.crearParticipante(nombre, email);
+								proyecto.agregarParticipante(participante);
+								System.out.println("Se agregï¿½ el participante con ï¿½xito! \n" + "El nï¿½mero de participantes en el proyecto es de: "
+								+ proyecto.getParticipantes().size()+"\n");
+							}
+							else {
+								System.out.println("El proyecto no existe, intenta de nuevo. \n"); 
+							}
+						}
+					}
 				}
-			else if(opcion == 3){
-				Cronometro timer = new Cronometro();
-				timer.startTime();
+
+				else if(opcion == 3){
+					if (mediador.getProyectos().size() == 0) {
+						System.out.println("Primero debes crear un proyecto para registrar una actividad \n");
+					}
+					else {
+						System.out.println("Ingresa por favor el nombre del proyecto: \n");
+						String nombreProyecto = this.br.readLine();
+						for (Proyecto proyecto: mediador.getProyectos()) {
+							if (proyecto.getNombre().equals(nombreProyecto)) {
+								//proyecto es el Proyecto al que se le estï¿½ registrando una actividad
+								System.out.println("Por favor ingresa el tï¿½tulo de la actividad que deseas registrar: \n");
+								String titulo = this.br.readLine();
+								System.out.println("Ingresa por favor una descripciï¿½n corta de la actividad: \n");
+								String descripcionA = this.br.readLine();
+								System.out.println("Ingresa por favor la fecha en la que se realizï¿½ la actividad: \n");
+								String fechaA = this.br.readLine();
+								System.out.println("Ingresa por favor la hora de inicio: \n");
+								String horaInicio = this.br.readLine();
+								//Tiempo de actividad
+								mediador.startCronometro();
+
+								System.out.println("Ingresa por favor la hora de finalizaciï¿½n: \n");
+								String horaFinal = this.br.readLine();
+								System.out.println("Ingresa por favor el # del tipo de actividad que desea realizar: \n");
+								int i = 1;
+								for (TipoActividad tipo: proyecto.getTipoActividades()) {
+									System.out.println( i + " " + tipo.getNombreTipoActividad());
+									i++;
+								}
+								String numTipo = this.br.readLine();
+								//Tipo es el tipo de actividad en el que se trabajo
+								TipoActividad tipo = proyecto.getTipoActividades().get(Integer.parseInt(numTipo)-1);
+								System.out.println("Selecciona el participante que realizaï¿½ la actividad: \n");
+								int j = 1;
+								for (Participante participante: proyecto.getParticipantes()) {
+									System.out.println( j + " " + participante.getNombre());
+									j++;
+								}
+								String numParticipante = this.br.readLine();
+								//participant es el participante que realizï¿½ la actividad
+								Participante participant = proyecto.getParticipantes().get(Integer.parseInt(numParticipante)-1);
+								//TODO Implementar la adiciï¿½n del participante al hashMap de tiempoParticipante
+								String nombreParticipante = participant.getNombre();
+
+								if (tipo.getTiempoParticipantes().containsKey(nombreParticipante) == true) {
+									int duracionMinutos = mediador.getTiempo();
+									int tiempoAnterior = tipo.getTiempoParticipantes().get(nombreParticipante).get(0);
+									int participacionAnterior = tipo.getTiempoParticipantes().get(nombreParticipante).get(1);
+									//Se sumï¿½ el tiempo pasado con el actual y se aï¿½adiï¿½ al array del participante
+									tipo.getTiempoParticipantes().get(nombreParticipante).set(0, duracionMinutos+tiempoAnterior);
+									//Se sumï¿½ la participaciï¿½n anterior + 1 y se aï¿½adiï¿½ al array del participante
+									tipo.getTiempoParticipantes().get(nombreParticipante).set(1, participacionAnterior+1);
+								}
+
+								if (tipo.getTiempoParticipantes().containsKey(nombreParticipante) == false) {
+									ArrayList<Integer> array = new ArrayList<>();
+									tipo.getTiempoParticipantes().put(nombreParticipante, array);
+									int duracionMinutos = mediador.getTiempo();
+									//Posiciï¿½n 0 del array = Tiempo de actividad 
+									tipo.getTiempoParticipantes().get(nombreParticipante).add(duracionMinutos);
+									//Posiciï¿½n 1 del array = nï¿½mero de participaciones
+									tipo.getTiempoParticipantes().get(nombreParticipante).add(1);
+								}
+								System.out.println(participant.getNombre() + tipo.getNombreTipoActividad());
+								mediador.crearActividad(titulo, descripcionA, tipo, fechaA, horaInicio, horaFinal, participant, proyecto);
+								for (Actividad actividad: proyecto.getActividades()) {
+									System.out.println(actividad.getTitulo());
+								}
+							}
+
+							else {
+								System.out.println("El proyecto no existe, intenta de nuevo. \n"); 
+							}
+						}
+					}
+				}
+				else if (opcion == 4) {
+					if (mediador.getProyectos().size() == 0) {
+						System.out.println("Primero debes crear un proyecto para ver el reporte de los participantes \n");	
+					} else {
+						System.out.println("Ingresa por favor el nombre del proyecto: \n");
+						String nombreProyecto = this.br.readLine();
+						for (Proyecto proyecto: mediador.getProyectos()) {
+							if (proyecto.getNombre().equals(nombreProyecto)) {
+								//Necesito recorrer la lista de participantes primero,
+								//luego de eso, con cada valor del nombreParticipante pido que me obtenga el valor del hashmap
+								//donde en el array de cada participante, el [0] = tiempo total
+								//y [1] = tiempo promedio
+								for (Participante participante : proyecto.getParticipantes()) {
+									String nombreParticipante = participante.getNombre();
+									for(TipoActividad tipoAct : proyecto.getTipoActividades()) {
+										if (tipoAct.getTiempoParticipantes().isEmpty()) {
+											System.out.println("No se puede mostrar reporte debido a que ningï¿½n participante ha registrado alguna actividad en: "+tipoAct.getNombreTipoActividad());
+										} else {
+											ArrayList<Integer> tiemposArray = tipoAct.getTiempoParticipantes().get(nombreParticipante);
+											String nombreTipo = tipoAct.getNombreTipoActividad();
+											int tiempoTotal = tiemposArray.get(0);
+											int tiempoPromedio = tiempoTotal/tiemposArray.get(1);
+											System.out.println(nombreParticipante + " en "+nombreTipo+":\n"+"Tiempo total: "+tiempoTotal+"\n"
+													+"Tiempo promedio: "+tiempoPromedio);
+										}
+									}
+								}
+							} 
+							else {
+								System.out.println("El proyecto no existe, intenta de nuevo. \n"); 
+							}
+						}
+						}
 				}
 			}
-			
-		while(opcion != 0);		
-		} catch (Exception e) {
-			// TODO: handle exception
+					while(opcion != 0);		
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+
+			}
+
+			private void mostrarParticipantes() {
+				for(int i=0;i<mediador.getParticipantes().size();i++) {
+					System.out.println((i+1)+") "+mediador.getParticipantes().get(i));
+				}
+			}
 		}
-		
-	}
-	private void mostrarParticipantes() {
-		for(int i=0;i<controller.getParticipantes().size();i++) {
-			System.out.println((i+1)+") "+controller.getParticipantes().get(i));
-		}
-	}
-}

@@ -1,4 +1,4 @@
-package Aplicación;
+package Aplicaciï¿½n;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +20,10 @@ public class Cronometro {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//Esta funciï¿½n lo que hace es aï¿½adir a las variables el correspondiente valor segï¿½n pasa el tiempo
+			//100 centesimas = 1 segundo
+			//60 segundos = 1 min
+			//60 mins = 1 hora
 			centesimas_segundo++;
 			if (centesimas_segundo == 100) {
 				segundos++;
@@ -36,7 +40,26 @@ public class Cronometro {
 			actualizarTiempo();
 		}
 	};
+	
+	public void setCentesimas_segundo(int centesimas_segundo) {
+		this.centesimas_segundo = centesimas_segundo;
+	}
+
+	public void setSegundos(int segundos) {
+		this.segundos = segundos;
+	}
+
+	public void setMinutos(int minutos) {
+		this.minutos = minutos;
+	}
+
+	public void setHoras(int horas) {
+		this.horas = horas;
+	}
+
 	private void actualizarTiempo() {
+		//Esto es para que mientras va corrieno el Timer, se actualicen las variables
+		//Siempre se actualizaran en formato HH:MM:SS:CS
 		String tiempo = (horas<=9?"0":"")
 				+horas+":"+(minutos<=9?"0":"")+minutos+":"
 				+(segundos<=9?"0":"")+segundos+":"
@@ -59,21 +82,43 @@ public class Cronometro {
 	}
 	public void startTime() {
 		cronometro.start();
+		//Inicia el tiempo apenas se llama y da las opciones para pausar, reanudar y terminar
 		try {
 			int opcion;
 			do {
-				System.out.println("Para pausar oprima 1\nPara reanudar opimra 2\n");
+				System.out.println("1. Pausar\n2. Reanudar\n3. Terminar actividad");
 				opcion = Integer.parseInt(this.br.readLine());
 				if (opcion == 1) {
 					cronometro.stop();
 					System.out.println("Han transcurrido: "+this.getTiempo());
 				} if (opcion == 2) {
 					cronometro.start();
-					this.cronometro.start();
+				} if (opcion == 3) {
+					cronometro.stop();
+					System.out.println("El tiempo de la actividad es: " + this.getTiempo());
+					opcion = 0;
+					
 				}
 			} while (opcion != 0);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+	public int tiempoEnMins() {
+		String[] separado = this.tiempo.split(":");
+		int horas_a_mins = Integer.parseInt(separado[0])*60;
+		int mins = Integer.parseInt(separado[1]);
+		int segs_a_mins = Integer.parseInt(separado[2])/60;
+		int todoMinutos = horas_a_mins + mins + segs_a_mins;
+		//Como ya se guarda el tiempo en otra variable llamada "separado". Usamos los setters para reiniciar el tiempo
+		//Y que asï¿½ cada actividad inicie desde "00:00:00:00"
+		String restart = "00:00:00:00";
+		setTiempo(restart);
+		setTiempo("00:00:00:00");
+		setCentesimas_segundo(0);
+		setHoras(0);
+		setMinutos(0);
+		setSegundos(0);
+		return todoMinutos;
 	}
 }
