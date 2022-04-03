@@ -1,4 +1,4 @@
-package Aplicaciï¿½n;
+package Aplicación;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
