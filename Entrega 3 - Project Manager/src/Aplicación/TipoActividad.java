@@ -11,7 +11,6 @@ public class TipoActividad
 	private HashMap<String, ArrayList<Integer>> tiempoParticipantes = new HashMap<>();
 	
 	
-	
 	//Getters and Setters
 	
 	public Proyecto getProyecto() {

@@ -12,12 +12,12 @@ import Aplicación.Actividad;
 import Aplicación.Participante;
 import Aplicación.Proyecto;
 import Aplicación.TipoActividad;
-import Controller.Controller;
+import Mediador.Aplicacion;
 
 public class Consola {
 
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	private Controller controller;
+	private Aplicacion mediador;
 
 	public static void main(String[] args) {
 		Consola consola = new Consola();
@@ -25,7 +25,7 @@ public class Consola {
 	}
 
 	public Consola () {
-		controller=new Controller();
+		mediador =new Aplicacion();
 		mostrarMenu();
 	}
 	private void mostrarMenu() {
@@ -59,7 +59,7 @@ public class Consola {
 					System.out.println("Ingresa por favor la fecha estimada de finalización: \n");
 					String fechaFinalizacion = this.br.readLine();
 
-					Proyecto proyecto = controller.crearProyecto(nombreP, descripcion, fechaInicial, fechaFinalizacion, propietario);
+					Proyecto proyecto = mediador.crearProyecto(nombreP, descripcion, fechaInicial, fechaFinalizacion, propietario);
 					ArrayList<TipoActividad>tipoActividades = new ArrayList<>();
 					System.out.println("Por favor ingrese los tipos de actividades que tendrá el proyecto separados por coma: \n");
 					String[] tiposActividades = this.br.readLine().split(",");
@@ -75,20 +75,20 @@ public class Consola {
 
 				else if(opcion == 2) {
 
-					if (controller.getProyectos().size() == 0) {
+					if (mediador.getProyectos().size() == 0) {
 						System.out.println("Primero debes crear un proyecto para añadir participantes \n");
 					}
 					else {
 						System.out.println("Ingresa por favor el nombre del proyecto: \n");
 						String nombreProyecto = this.br.readLine();
-						for (Proyecto proyecto: controller.getProyectos()) {
+						for (Proyecto proyecto: mediador.getProyectos()) {
 							if (proyecto.getNombre().equals(nombreProyecto)) {
 								System.out.println("Por favor ingresa los datos del nuevo participante:\n"
 										+ "Ingresa por favor tu nombre completo: \n");
 								String nombre = this.br.readLine();
 								System.out.println("Ingresa por favor tu dirección e-mail: \n");
 								String email = this.br.readLine();
-								Participante participante = controller.crearParticipante(nombre, email);
+								Participante participante = mediador.crearParticipante(nombre, email);
 								proyecto.agregarParticipante(participante);
 								System.out.println("Se agregó el participante con éxito! \n" + "El número de participantes en el proyecto es de: "
 								+ proyecto.getParticipantes().size()+"\n");
@@ -101,13 +101,13 @@ public class Consola {
 				}
 
 				else if(opcion == 3){
-					if (controller.getProyectos().size() == 0) {
+					if (mediador.getProyectos().size() == 0) {
 						System.out.println("Primero debes crear un proyecto para registrar una actividad \n");
 					}
 					else {
 						System.out.println("Ingresa por favor el nombre del proyecto: \n");
 						String nombreProyecto = this.br.readLine();
-						for (Proyecto proyecto: controller.getProyectos()) {
+						for (Proyecto proyecto: mediador.getProyectos()) {
 							if (proyecto.getNombre().equals(nombreProyecto)) {
 								//proyecto es el Proyecto al que se le está registrando una actividad
 								System.out.println("Por favor ingresa el título de la actividad que deseas registrar: \n");
@@ -119,7 +119,7 @@ public class Consola {
 								System.out.println("Ingresa por favor la hora de inicio: \n");
 								String horaInicio = this.br.readLine();
 								//Tiempo de actividad
-								controller.startCronometro();
+								mediador.startCronometro();
 
 								System.out.println("Ingresa por favor la hora de finalización: \n");
 								String horaFinal = this.br.readLine();
@@ -145,7 +145,7 @@ public class Consola {
 								String nombreParticipante = participant.getNombre();
 
 								if (tipo.getTiempoParticipantes().containsKey(nombreParticipante) == true) {
-									int duracionMinutos = controller.getTiempo();
+									int duracionMinutos = mediador.getTiempo();
 									int tiempoAnterior = tipo.getTiempoParticipantes().get(nombreParticipante).get(0);
 									int participacionAnterior = tipo.getTiempoParticipantes().get(nombreParticipante).get(1);
 									//Se sumó el tiempo pasado con el actual y se añadió al array del participante
@@ -157,14 +157,14 @@ public class Consola {
 								if (tipo.getTiempoParticipantes().containsKey(nombreParticipante) == false) {
 									ArrayList<Integer> array = new ArrayList<>();
 									tipo.getTiempoParticipantes().put(nombreParticipante, array);
-									int duracionMinutos = controller.getTiempo();
+									int duracionMinutos = mediador.getTiempo();
 									//Posición 0 del array = Tiempo de actividad 
 									tipo.getTiempoParticipantes().get(nombreParticipante).add(duracionMinutos);
 									//Posición 1 del array = número de participaciones
 									tipo.getTiempoParticipantes().get(nombreParticipante).add(1);
 								}
 								System.out.println(participant.getNombre() + tipo.getNombreTipoActividad());
-								controller.crearActividad(titulo, descripcionA, tipo, fechaA, horaInicio, horaFinal, participant, proyecto);
+								mediador.crearActividad(titulo, descripcionA, tipo, fechaA, horaInicio, horaFinal, participant, proyecto);
 								for (Actividad actividad: proyecto.getActividades()) {
 									System.out.println(actividad.getTitulo());
 								}
@@ -177,12 +177,12 @@ public class Consola {
 					}
 				}
 				else if (opcion == 4) {
-					if (controller.getProyectos().size() == 0) {
+					if (mediador.getProyectos().size() == 0) {
 						System.out.println("Primero debes crear un proyecto para ver el reporte de los participantes \n");	
 					} else {
 						System.out.println("Ingresa por favor el nombre del proyecto: \n");
 						String nombreProyecto = this.br.readLine();
-						for (Proyecto proyecto: controller.getProyectos()) {
+						for (Proyecto proyecto: mediador.getProyectos()) {
 							if (proyecto.getNombre().equals(nombreProyecto)) {
 								//Necesito recorrer la lista de participantes primero,
 								//luego de eso, con cada valor del nombreParticipante pido que me obtenga el valor del hashmap
@@ -219,8 +219,8 @@ public class Consola {
 			}
 
 			private void mostrarParticipantes() {
-				for(int i=0;i<controller.getParticipantes().size();i++) {
-					System.out.println((i+1)+") "+controller.getParticipantes().get(i));
+				for(int i=0;i<mediador.getParticipantes().size();i++) {
+					System.out.println((i+1)+") "+mediador.getParticipantes().get(i));
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package Controller;
+package Mediador;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -9,16 +9,17 @@ import Aplicación.Proyecto;
 import Aplicación.TipoActividad;
 import Aplicación.Cronometro;
 
-public class Controller {
+public class Aplicacion {
 	private ArrayList<Proyecto>proyectos;
 	private ArrayList<Participante>participantes;
 	private Cronometro timer = new Cronometro();
 	
-	public Controller() {
+	public Aplicacion() {
 		this.proyectos =new ArrayList<>();
 		this.participantes =new ArrayList<>();
 	}
 	
+	//Todas estas funciones sirven como mediador entre la consola y la lógica. Esto es para un menos acoplamiento
 	public Participante crearParticipante(String nombre,String correo ) {
 		Participante participante = new Participante(nombre,correo);
 		participantes.add(participante);
